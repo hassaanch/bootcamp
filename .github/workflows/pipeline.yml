@@ -1,0 +1,31 @@
+name: Deployee_To_Surge
+
+on:
+  push:
+    branches: [ master ]
+
+
+jobs:
+  deployement:
+
+    # microsoft hosted agent demand
+    runs-on: ubuntu-latest
+
+   # task with in deployement job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so the futher task can use it to do further operations
+    - uses: actions/checkout@v2
+
+    # Install Node.js in Microsoft hosted agent
+    - name: Install NodeJS
+      uses: actions/setup-node@v2-beta
+      with: 
+        node-version: 12
+
+    # Install surge in microsoft hosted agent
+    - name: Install Surge
+      run: npm install -g surge
+      
+    # run surge in microsoft hosted agent
+    - name: Run Surge
+      run: surge ./ hassaanch.surge.sh --token ${{secrets.SURGE_TOKEN}}
